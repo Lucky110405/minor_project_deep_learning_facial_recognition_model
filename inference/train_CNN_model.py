@@ -70,7 +70,7 @@ def create_cnn_model(input_shape, num_classes):
     return model
 
 # Training the CNN with the Custom Dataset:
-data_dir = '/mnt/c/Users/M Lucky/OneDrive/Desktop/projects/minor_project/lfw_public_dataset' # path to the image dataset
+data_dir = '/mnt/d/projects/minor_project/lfw_public_dataset' # path to the image dataset
 input_shape = (128, 128, 3)
 # Dynamically determine the number of classes
 num_classes = len(os.listdir(data_dir)) # number of classes i.e the no. of students
@@ -132,7 +132,7 @@ def plot_learning_curves(history):
 plot_learning_curves(history)
 
 #Testing and Evaluating the Model:
-data_dir_test = 'C:/Users/M Lucky/OneDrive/Desktop/projects/minor_project/face_recognition_data_images' # path to the test image dataset
+data_dir_test = '/mnt/d/projects/minor_project/face_recognition_data_images' # path to the test image dataset
 datagen = ImageDataGenerator(rescale=1.0/255, fill_mode='nearest')
 test_generator = datagen.flow_from_directory(
     data_dir_test, 
@@ -152,3 +152,41 @@ print("Confusion Matrix:\n", cm)
 
 # Classification Report
 print("Classification Report:\n", classification_report(y_true, y_pred))
+
+
+
+# output for the above confsion matrix and classification report:
+
+# Confusion Matrix:
+
+#  [[ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0 14]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  4]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  5]
+#  [ 0  0  0  0  0  0  0  0  0  0  0]]
+
+# Classification Report:
+
+#                precision    recall  f1-score   support
+
+#            0       0.00      0.00      0.00       5.0
+#            1       0.00      0.00      0.00       5.0
+#            2       0.00      0.00      0.00      14.0
+#            3       0.00      0.00      0.00       5.0
+#            4       0.00      0.00      0.00       5.0
+#            5       0.00      0.00      0.00       5.0
+#            6       0.00      0.00      0.00       4.0
+#            7       0.00      0.00      0.00       5.0
+#            8       0.00      0.00      0.00       5.0
+#            9       0.00      0.00      0.00       5.0
+#         1871       0.00      0.00      0.00       0.0
+
+#     accuracy                           0.00      58.0
+#    macro avg       0.00      0.00      0.00      58.0
+# weighted avg       0.00      0.00      0.00      58.0
