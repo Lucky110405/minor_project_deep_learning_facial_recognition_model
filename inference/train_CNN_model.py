@@ -69,7 +69,7 @@ def create_cnn_model(input_shape, num_classes):
     
     return model
 
-# Training the CNN with the Custom Dataset:
+# Training the CNN with the public Dataset:
 data_dir = '/mnt/d/projects/minor_project/lfw_public_dataset' # path to the image dataset
 input_shape = (128, 128, 3)
 # Dynamically determine the number of classes
@@ -91,7 +91,7 @@ checkpoint = ModelCheckpoint(
     verbose=1  # Print message when a new best model is saved
 )
 
-# Training the model with early stopping callback
+# Training the model with early stopping callback and ModelCheckpoint callback:
 history = model.fit(train_generator, epochs=50, validation_data=validation_generator, callbacks=[early_stopping, checkpoint])
 
 # Saving the model:
@@ -131,7 +131,7 @@ def plot_learning_curves(history):
 
 plot_learning_curves(history)
 
-#Testing and Evaluating the Model:
+#Testing and Evaluating the Model on custom dataset:
 data_dir_test = '/mnt/d/projects/minor_project/face_recognition_data_images' # path to the test image dataset
 datagen = ImageDataGenerator(rescale=1.0/255, fill_mode='nearest')
 test_generator = datagen.flow_from_directory(

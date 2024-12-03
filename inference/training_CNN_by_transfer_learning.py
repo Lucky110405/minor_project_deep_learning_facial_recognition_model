@@ -5,6 +5,8 @@ from tensorflow.keras.applications import VGG16
 from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 import os
+from sklearn.metrics import confusion_matrix, classification_report
+import numpy as np
 
 # Loading the Training Dataset and preprocessing it:
 def load_dataset(data_dir):
@@ -66,6 +68,22 @@ train_generator, validation_generator = load_dataset(data_dir)
 model = create_transfer_learning_model(input_shape, num_classes)
 model.summary()
 
+# Output of the model summary:
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+# ┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+# ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+# │ vgg16 (Functional)                   │ (None, 4, 4, 512)           │      14,714,688 │
+# ├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+# │ flatten (Flatten)                    │ (None, 8192)                │               0 │
+# ├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+# │ dense (Dense)                        │ (None, 256)                 │       2,097,408 │
+# ├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+# │ dropout (Dropout)                    │ (None, 256)                 │               0 │
+# ├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+# │ dense_1 (Dense)                      │ (None, 10)                  │           2,570 │
+# └──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+
+
 # Define early stopping callback
 early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 
@@ -109,9 +127,59 @@ def plot_learning_curves(history):
 
 plot_learning_curves(history)
 
-# Testing and Evaluating the Model
+# Testing and Evaluating the Model with Custom Dataset:
 data_dir_test = '/mnt/d/projects/minor_project/face_recognition_data_images'  # path to the test image dataset
 datagen = ImageDataGenerator(rescale=1.0/255, fill_mode='nearest')
 test_generator = datagen.flow_from_directory(data_dir_test, target_size=(128, 128), batch_size=16, class_mode='sparse')
 test_loss, test_acc = model.evaluate(test_generator)
 print(f"Test Accuracy: {test_acc}")
+
+# Output of Predicting on test data:
+# Test Accuracy: 0.6896551847457886
+
+# Predicting on test data
+y_true = test_generator.classes
+y_pred = np.argmax(model.predict(test_generator), axis=1)
+
+# Confusion Matrix
+cm = confusion_matrix(y_true, y_pred)
+print("Confusion Matrix:\n", cm)
+
+# Classification Report
+print("Classification Report:\n", classification_report(y_true, y_pred))
+
+
+
+# output for the above confsion matrix and classification report:
+
+# Confusion Matrix:
+
+#  [[1 0 2 1 0 0 0 0 0 1]
+#  [0 2 1 1 0 0 0 0 0 1]
+#  [0 3 3 2 0 0 1 2 1 2]
+#  [1 1 0 1 0 0 0 1 1 0]
+#  [2 0 2 1 0 0 0 0 0 0]
+#  [0 1 0 2 0 0 0 1 1 0]
+#  [0 1 2 0 0 0 0 0 0 1]
+#  [2 1 1 0 0 0 0 1 0 0]
+#  [1 2 1 1 0 0 0 0 0 0]
+#  [0 0 3 1 0 0 0 0 0 1]]
+
+# Classification Report:
+
+#                precision    recall  f1-score   support
+
+#            0       0.14      0.20      0.17         5
+#            1       0.18      0.40      0.25         5
+#            2       0.20      0.21      0.21        14
+#            3       0.10      0.20      0.13         5
+#            4       0.00      0.00      0.00         5
+#            5       0.00      0.00      0.00         5
+#            6       0.00      0.00      0.00         4
+#            7       0.20      0.20      0.20         5
+#            8       0.00      0.00      0.00         5
+#            9       0.17      0.20      0.18         5
+
+#     accuracy                           0.16        58
+#    macro avg       0.10      0.14      0.11        58
+# weighted avg       0.12      0.16      0.13        58
