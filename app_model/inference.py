@@ -13,7 +13,9 @@ def get_class_indices(data_dir):
     class_indices = {i: class_name for i, class_name in enumerate(class_names)}
     return class_indices
 
-data_dir = '/mnt/d/projects/minor_project/face_recognition_data_images'
+# data_dir = '/mnt/d/projects/minor_project/face_recognition_data_images' # path working for wsl2
+data_dir = 'D:/projects/minor_project/face_recognition_data_images' # path working for windows
+
 class_indices = get_class_indices(data_dir)
 
 # Load the model
