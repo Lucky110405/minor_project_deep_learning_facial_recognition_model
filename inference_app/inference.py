@@ -135,4 +135,4 @@ def run_inference():
 # print("Attendance updated and saved to attendance.csv")
 
 # Run the inference        
-run_inference()
+# run_inference()
