@@ -26,7 +26,7 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 
 # Preprocess a single frame
 def preprocess_frame(frame):
-    resized = cv2.resize(frame, (128, 128))  # Match model input size
+    resized = cv2.resize(frame, (224, 224))  # Match model input size
     normalized = resized / 255.0
     return np.expand_dims(normalized, axis=0)
 
@@ -80,10 +80,10 @@ def run_inference():
                         predicted_class_name = class_indices.get(predicted_class_index, "Unknown")
                         confidence = float(prediction[0][predicted_class_index])
                             
-                        print(f"Predicted Class: {predicted_class_name} (Confidence: {confidence:.2f})")
+                        print(f"Predicted Class: {predicted_class_name}")
 
                         # Mark attendance for high-confidence predictions
-                        if predicted_class_name != "Unknown" and confidence > 0.7:
+                        if predicted_class_name != "Unknown":# and confidence > 0.7:
                             date_str = current_time.strftime("%Y-%m-%d")
                             time_str = current_time.strftime("%H:%M:%S")
 
@@ -110,7 +110,7 @@ def run_inference():
                         continue
 
                     # Display the predicted class name on the frame
-                    label = f"{predicted_class_name} ({confidence:.2f})"
+                    label = f"{predicted_class_name} "
 
                     cv2.putText(frame, label, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2, cv2.LINE_AA)
             
