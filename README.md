@@ -30,15 +30,17 @@ Initially, a custom Convolutional Neural Network (CNN) model was designed and tr
 - **data_set**: Directory containing the dataset for training and testing.
 - **attendance.csv**: CSV file where attendance records are stored.
 
-## Acknowledgements
-
-This project uses the VGG16 model for transfer learning.
-
-Special thanks to the Streamlit community for providing an excellent framework for building web applications.
-
 ## Usage of Github Copilot
 
 I used GitHub copilot for learning machine learning and making this project. There were many things that I didn't know about, so I utilized gitHub copilot to help me understand those things as well as write code. The code is not fully written through AI, but some parts like inference_app have a good chunk written with the help of github copilot. However, I mostly tried understood everything as to why it was used.
+
+## Future scope
+
+The project has immense potential for expansion beyond automated attendance. Here are the envisioned features that I wish to integrate in near future:
+
+Student Behavior Analysis
+Personalized Learning Recommendations
+Scalability and Multi-Classroom Management
 
 ## Willingness to Learn
 
